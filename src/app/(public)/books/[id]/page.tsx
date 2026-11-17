@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { loadBook, loadBooksShift } from "@/lib/books";
+import BookCover from "@/components/BookCover";
 export const revalidate = 60;
 export const dynamic = "force-static";
 type Props = { params: Promise<{ id: string }> };
@@ -24,21 +25,26 @@ export default async function BookPage({ params }: Props) {
   return (
     <>
       <Link href="/books">← Danh mục sách</Link>
-      <article className="panel">
-        <span className="eyebrow">Chi tiết sách / {book.id}</span>
-        <h1>{book.title}</h1>
-        <p>Tác giả: {book.author}</p>
-        <p>Chuyên mục: {book.category}</p>
-        <p>Số bản: {book.copies}</p>
-        <p className="muted">
-          Cập nhật lúc:{" "}
-          {new Date().toLocaleTimeString("vi-VN", {
-            timeZone: "Asia/Ho_Chi_Minh",
-          })}
-        </p>
-        <Link className="button" href={`/loans?book=${book.id}`}>
-          Mượn sách này
-        </Link>
+      <article className="book-detail">
+        <div className="detail-art">
+          <BookCover book={book} />
+        </div>
+        <div className="detail-content">
+          <span className="eyebrow">Chi tiết sách / {book.id}</span>
+          <h1>{book.title}</h1>
+          <p>Tác giả: {book.author}</p>
+          <p>Chuyên mục: {book.category}</p>
+          <p>Số bản: {book.copies}</p>
+          <p className="muted">
+            Cập nhật lúc:{" "}
+            {new Date().toLocaleTimeString("vi-VN", {
+              timeZone: "Asia/Ho_Chi_Minh",
+            })}
+          </p>
+          <Link className="button" href={`/loans?book=${book.id}`}>
+            Mượn sách này
+          </Link>
+        </div>
       </article>
     </>
   );
